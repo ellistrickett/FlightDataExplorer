@@ -28,12 +28,14 @@ namespace FlightDataExplorer.Data
             modelBuilder.Entity<Flight>()
                 .HasOne(f => f.SourceAirportNavigation)
                 .WithMany(a => a.DepartureFlights)
-                .HasForeignKey(f => f.SourceAirportID);
+                .HasForeignKey(f => f.SourceAirportID)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Flight>()
                 .HasOne(f => f.DestinationAirportNavigation)
                 .WithMany(a => a.ArrivalFlights)
-                .HasForeignKey(f => f.DestinationAirportID);
+                .HasForeignKey(f => f.DestinationAirportID)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Airport>()
                 .HasMany(a => a.DepartureFlights)
