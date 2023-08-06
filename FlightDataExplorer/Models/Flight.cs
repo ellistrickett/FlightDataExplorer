@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDataExplorer.Models
 {
@@ -31,5 +32,11 @@ namespace FlightDataExplorer.Models
         [Required]
         [StringLength(3)]
         public required string Equipment { get; set; }
+
+        [ForeignKey("SourceAirportID")]
+        public required Airport SourceAirportNavigation { get; set; }
+
+        [ForeignKey("DestinationAirportID")]
+        public required Airport DestinationAirportNavigation { get; set; }
     }
 }
