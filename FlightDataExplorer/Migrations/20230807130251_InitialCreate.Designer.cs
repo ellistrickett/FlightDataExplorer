@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FlightDataExplorer.Migrations
 {
     [DbContext(typeof(FlightDataContext))]
-    [Migration("20230806150448_InitialCreate")]
+    [Migration("20230807130251_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -28,10 +28,7 @@ namespace FlightDataExplorer.Migrations
             modelBuilder.Entity("FlightDataExplorer.Models.Airport", b =>
                 {
                     b.Property<int>("AirportId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AirportId"));
 
                     b.Property<int>("Altitude")
                         .HasColumnType("int");
@@ -114,13 +111,11 @@ namespace FlightDataExplorer.Migrations
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<int?>("DestinationAirportID")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Equipment")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("nvarchar(3)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SourceAirport")
                         .IsRequired()
@@ -128,7 +123,6 @@ namespace FlightDataExplorer.Migrations
                         .HasColumnType("nvarchar(4)");
 
                     b.Property<int?>("SourceAirportID")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<int>("Stops")
@@ -148,14 +142,12 @@ namespace FlightDataExplorer.Migrations
                     b.HasOne("FlightDataExplorer.Models.Airport", "DestinationAirportNavigation")
                         .WithMany("ArrivalFlights")
                         .HasForeignKey("DestinationAirportID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("FlightDataExplorer.Models.Airport", "SourceAirportNavigation")
                         .WithMany("DepartureFlights")
                         .HasForeignKey("SourceAirportID")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("DestinationAirportNavigation");
 

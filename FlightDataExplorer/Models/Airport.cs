@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CsvHelper.Configuration.Attributes;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FlightDataExplorer.Models
@@ -32,7 +33,7 @@ namespace FlightDataExplorer.Models
         public required string DST { get; set; }
 
         [Required]
-        public required string? TzDatabaseTimeZone { get; set; }
+        public required string TzDatabaseTimeZone { get; set; }
 
         [Required]
         public required string Type { get; set; }
@@ -41,9 +42,11 @@ namespace FlightDataExplorer.Models
         public required string Source { get; set; }
 
         [InverseProperty("SourceAirportNavigation")]
-        public required ICollection<Flight> DepartureFlights { get; set; }
+        [Ignore]
+        public ICollection<Flight>? DepartureFlights { get; set; }
 
         [InverseProperty("DestinationAirportNavigation")]
-        public required ICollection<Flight> ArrivalFlights { get; set; }
+        [Ignore]
+        public ICollection<Flight>? ArrivalFlights { get; set; }
     }
 }

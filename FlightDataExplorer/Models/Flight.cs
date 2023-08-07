@@ -30,7 +30,6 @@ namespace FlightDataExplorer.Models
         public int Stops { get; set; }
 
         [Required]
-        [StringLength(3)]
         public required string Equipment { get; set; }
 
         [ForeignKey("SourceAirportID")]

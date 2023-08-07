@@ -14,8 +14,7 @@ namespace FlightDataExplorer.Migrations
                 name: "Airports",
                 columns: table => new
                 {
-                    AirportId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AirportId = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -44,12 +43,12 @@ namespace FlightDataExplorer.Migrations
                     Airline = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     AirlineId = table.Column<int>(type: "int", nullable: true),
                     SourceAirport = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    SourceAirportID = table.Column<int>(type: "int", nullable: false),
+                    SourceAirportID = table.Column<int>(type: "int", nullable: true),
                     DestinationAirport = table.Column<string>(type: "nvarchar(4)", maxLength: 4, nullable: false),
-                    DestinationAirportID = table.Column<int>(type: "int", nullable: false),
+                    DestinationAirportID = table.Column<int>(type: "int", nullable: true),
                     Codeshare = table.Column<string>(type: "nvarchar(1)", maxLength: 1, nullable: true),
                     Stops = table.Column<int>(type: "int", nullable: false),
-                    Equipment = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false)
+                    Equipment = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

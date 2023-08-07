@@ -17,7 +17,9 @@ namespace FlightDataExplorer.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Airport>().Property(m => m.Latitude).HasPrecision(10, 2);
+            modelBuilder.Entity<Airport>()
+                .Property(a => a.AirportId)
+                .ValueGeneratedNever();
 
             modelBuilder.Entity<Airport>(entity =>
             {
@@ -29,12 +31,14 @@ namespace FlightDataExplorer.Data
                 .HasOne(f => f.SourceAirportNavigation)
                 .WithMany(a => a.DepartureFlights)
                 .HasForeignKey(f => f.SourceAirportID)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Flight>()
                 .HasOne(f => f.DestinationAirportNavigation)
                 .WithMany(a => a.ArrivalFlights)
                 .HasForeignKey(f => f.DestinationAirportID)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Airport>()
@@ -46,6 +50,7 @@ namespace FlightDataExplorer.Data
                 .HasMany(a => a.ArrivalFlights)
                 .WithOne(f => f.DestinationAirportNavigation)
                 .HasForeignKey(f => f.DestinationAirportID);
+
         }
     }
 }

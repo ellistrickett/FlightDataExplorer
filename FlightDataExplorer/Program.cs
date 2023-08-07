@@ -1,5 +1,8 @@
+using CsvHelper.Configuration;
+//using FlightDataExplorer.CsvMappings;
 using FlightDataExplorer.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// Load secrets for local development
 if (builder.Environment.IsDevelopment())
 {
     builder.Configuration.AddUserSecrets<Program>();
@@ -21,9 +23,14 @@ builder.Services.AddDbContext<FlightDataContext>(options =>
     options.UseSqlServer(connectionString);
 });
 
+builder.Services.AddHttpClient();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<DataImporter>();
+builder.Services.AddScoped<DatabaseSeeder>();
 
 var app = builder.Build();
 
@@ -35,12 +42,16 @@ if (app.Environment.IsDevelopment())
 
 }
 
-
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    await seeder.SeedAsync();
+}
 
 app.Run();
