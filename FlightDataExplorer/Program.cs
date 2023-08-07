@@ -1,6 +1,7 @@
 using CsvHelper.Configuration;
 //using FlightDataExplorer.CsvMappings;
 using FlightDataExplorer.Data;
+using FlightDataExplorer.Services;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
@@ -31,6 +32,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<DataImporter>();
 builder.Services.AddScoped<DatabaseSeeder>();
+builder.Services.AddScoped<IFlightService, FlightService>();
 
 var app = builder.Build();
 

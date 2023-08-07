@@ -1,6 +1,7 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FlightDataExplorer.Models
 {
@@ -43,10 +44,12 @@ namespace FlightDataExplorer.Models
 
         [InverseProperty("SourceAirportNavigation")]
         [Ignore]
+        [JsonIgnore]
         public ICollection<Flight>? DepartureFlights { get; set; }
 
         [InverseProperty("DestinationAirportNavigation")]
         [Ignore]
+        [JsonIgnore]
         public ICollection<Flight>? ArrivalFlights { get; set; }
     }
 }
