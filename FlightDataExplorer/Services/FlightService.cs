@@ -17,22 +17,13 @@ public class FlightService : IFlightService
 
     public List<Flight> GetDirectFlights(string departureAirportName, string destinationAirportName)
     {
-        IQueryable<Flight> query = _dbContext.Flights
-            .Include(f => f.SourceAirportNavigation)
-            .Include(f => f.DestinationAirportNavigation);
-
-
-        if (!string.IsNullOrEmpty(departureAirportName))
-        {
-            query = query.Where(f => f.SourceAirportNavigation.Name.Contains(departureAirportName));
-        }
-
-        if (!string.IsNullOrEmpty(destinationAirportName))
-        {
-            query = query.Where(f => f.DestinationAirportNavigation.Name.Contains(destinationAirportName));
-        }
-
-        List<Flight> flights = query.ToList();
-        return flights;
+        return _dbContext.Airports
+            .Where(a => a.Name == departureAirportName)
+            .Include(a => a.ArrivalFlights)
+                .ThenInclude(f => f.SourceAirportNavigation)
+            .Include(a => a.DepartureFlights)
+                .ThenInclude(f => f.DestinationAirportNavigation)
+            .SelectMany(a => a.DepartureFlights.Where(df => df.DestinationAirportNavigation.Name == destinationAirportName))
+            .ToList();
     }
 }

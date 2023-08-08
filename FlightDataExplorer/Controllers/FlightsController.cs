@@ -22,6 +22,11 @@ namespace FlightDataExplorer.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(departureAirportName) || string.IsNullOrEmpty(destinationAirportName))
+                {
+                    return BadRequest("Both departureAirportName and destinationAirportName are required.");
+                }
+
                 List<Flight> flights = _flightService.GetDirectFlights(departureAirportName, destinationAirportName);
                 return Ok(flights);
             }
